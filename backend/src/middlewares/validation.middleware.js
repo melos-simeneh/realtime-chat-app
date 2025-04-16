@@ -1,4 +1,8 @@
-const { signupBodyValidation } = require("../validators/auth.validator.js");
+const {
+  signupBodyValidation,
+  loginBodyValidation,
+  updateProfileBodyValidation,
+} = require("../validators/auth.validator.js");
 const { handleValidationError, AppError } = require("../lib/errorHandler.js");
 
 exports.validateRequestBody = (req, res, next) => {
@@ -8,8 +12,24 @@ exports.validateRequestBody = (req, res, next) => {
   next();
 };
 
-exports.validateSignup = (req, res, next) => {
+exports.validateSignupBody = (req, res, next) => {
   const { error } = signupBodyValidation(req.body);
+  if (error) {
+    return next(handleValidationError(error));
+  }
+  next();
+};
+
+exports.validateLoginBody = (req, res, next) => {
+  const { error } = loginBodyValidation(req.body);
+  if (error) {
+    return next(handleValidationError(error));
+  }
+  next();
+};
+
+exports.validateUpdateProfileBody = (req, res, next) => {
+  const { error } = updateProfileBodyValidation(req.body);
   if (error) {
     return next(handleValidationError(error));
   }

@@ -1,8 +1,8 @@
 class AppError extends Error {
   constructor(message, statusCode, detail = null) {
     super(message);
-    this.statusCode = statusCode;
-    this.success = statusCode.toString().startsWith("2");
+    this.statusCode = statusCode || 500;
+    this.success = this.statusCode.toString().startsWith("2");
     this.detail = detail;
     Error.captureStackTrace(this, this.constructor);
   }
