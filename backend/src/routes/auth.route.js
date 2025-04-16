@@ -11,7 +11,7 @@ const {
   validateLoginBody,
   validateUpdateProfileBody,
 } = require("../middlewares/validation.middleware");
-const { protectedRoute } = require("../middlewares/auth.middleware");
+const { protectRoute } = require("../middlewares/auth.middleware");
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.post("/logout", logout);
 
 router.post(
   "/update-profile",
-  protectedRoute,
+  protectRoute,
   validateRequestBody,
   validateUpdateProfileBody,
   updateProfile

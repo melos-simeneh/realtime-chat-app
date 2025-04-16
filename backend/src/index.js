@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const authRoutes = require("./routes/auth.route");
+const routes = require("./routes/index.route");
 const mongoDBConnection = require("./lib/db");
 
 const { globalErrorHandler } = require("./lib/errorHandler");
@@ -14,7 +14,7 @@ checkEnv();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authRoutes);
+app.use("/api", routes);
 
 // Global Error Handler (MUST be last middleware)
 app.use(globalErrorHandler);

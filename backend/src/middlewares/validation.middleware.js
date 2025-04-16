@@ -2,6 +2,7 @@ const {
   signupBodyValidation,
   loginBodyValidation,
   updateProfileBodyValidation,
+  sendMessageBodyValidation,
 } = require("../validators/auth.validator.js");
 const { handleValidationError, AppError } = require("../lib/errorHandler.js");
 
@@ -30,6 +31,14 @@ exports.validateLoginBody = (req, res, next) => {
 
 exports.validateUpdateProfileBody = (req, res, next) => {
   const { error } = updateProfileBodyValidation(req.body);
+  if (error) {
+    return next(handleValidationError(error));
+  }
+  next();
+};
+
+exports.validateSendMessageBody = (req, res, next) => {
+  const { error } = sendMessageBodyValidation(req.body);
   if (error) {
     return next(handleValidationError(error));
   }

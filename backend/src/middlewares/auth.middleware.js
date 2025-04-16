@@ -1,7 +1,7 @@
 const { AppError } = require("../lib/errorHandler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-exports.protectedRoute = async (req, res, next) => {
+exports.protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     if (!token) {

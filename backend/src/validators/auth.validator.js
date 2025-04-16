@@ -35,3 +35,19 @@ exports.updateProfileBodyValidation = (body) => {
     abortEarly: false,
   });
 };
+
+exports.sendMessageBodyValidation = (body) => {
+  const schema = Joi.object({
+    text: Joi.string().required(),
+    image: Joi.string()
+      .optional()
+      .regex(/^data:image\/(png|jpeg|jpg|gif);base64,[a-zA-Z0-9+/]+={0,2}$/)
+      .messages({
+        "string.pattern.base":
+          "Unsupported image format. Accepted formats are PNG, JPEG, JPG, and GIF (base64-encoded).",
+      }),
+  });
+  return schema.validate(body, {
+    abortEarly: false,
+  });
+};
