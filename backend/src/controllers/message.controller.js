@@ -1,6 +1,7 @@
 const { catchAsync } = require("../lib/errorHandler");
 const Message = require("../models/message.model");
 const User = require("../models/user.model");
+const { io, getReceiverSocketId } = require("../lib/socket");
 
 exports.getUsersForSidebar = catchAsync(async (req, res) => {
   const logged_in_user_id = req.userId;
@@ -47,6 +48,11 @@ exports.sendMessage = catchAsync(async (req, res) => {
   });
 
   await newMessage.save();
+
+  const receiverSocketId = getReceiverSocketId(receiver_id);
+  if (receiverSocketId) {
+    io.to(receiver_id).emit("newMessage", newMessage);
+  }
 
   res.status(201).json({
     success: true,

@@ -44,7 +44,7 @@ const mongoDBConnection = async (retries = 0) => {
 process.on("SIGINT", async () => {
   await mongoose.connection.close();
   console.log(
-    `[${timestamp()}]Mongoose connection closed due to application termination`
+    `[${timestamp()}][Info] Mongoose connection closed due to application termination`
   );
   process.exit(0);
 });

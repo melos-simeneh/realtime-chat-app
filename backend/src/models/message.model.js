@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const { AppError } = require("../lib/errorHandler");
 const messageSchema = new mongoose.Schema(
   {
-    sendId: {
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
@@ -13,7 +14,6 @@ const messageSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
     },
     image: {
       type: String,
@@ -21,6 +21,15 @@ const messageSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+messageSchema.pre("validate", function (next) {
+  if (!this.text && !this.image) {
+    return next(
+      new AppError("Either 'text' or 'image' must be provided.", 400)
+    );
+  }
+  next();
+});
 
 const Message = mongoose.model("Message", messageSchema);
 

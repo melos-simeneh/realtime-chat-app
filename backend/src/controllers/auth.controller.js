@@ -1,7 +1,7 @@
 const { generateTokenAndSetCookie } = require("../lib/utils");
 const User = require("../models/user.model");
-const bcryptjs = require("bcryptjs");
 const { catchAsync, AppError } = require("../lib/errorHandler");
+const { hashPassword, verifyPassword } = require("../lib/jwt");
 
 exports.signup = catchAsync(async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -9,8 +9,8 @@ exports.signup = catchAsync(async (req, res) => {
   if (user) {
     throw new AppError("Email already exists", 400);
   }
-  const salt = await bcryptjs.genSalt(10);
-  const hashedPassword = await bcryptjs.hash(password, salt);
+
+  const hashedPassword = await hashPassword(password);
   const newUser = new User({
     email,
     password: hashedPassword,
@@ -34,7 +34,7 @@ exports.login = catchAsync(async (req, res) => {
   if (!user) {
     throw new AppError("Invalid credentials", 401);
   }
-  const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+  const isPasswordCorrect = await verifyPassword(password, user.password);
   if (!isPasswordCorrect) {
     throw new AppError("Invalid credentials", 401);
   }
@@ -45,7 +45,7 @@ exports.login = catchAsync(async (req, res) => {
     success: true,
     message: "Logged in successfully",
     token,
-    user: { _id: user._id, email: user.email, fullName: user.fullName },
+    user: { ...user._doc, password: undefined },
   });
 });
 
@@ -67,12 +67,7 @@ exports.updateProfile = catchAsync(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Profile updated successfully",
-    user: {
-      _id: updatedUser._id,
-      email: updatedUser.email,
-      fullName: updatedUser.fullName,
-      profilePic: updatedUser.profilePic,
-    },
+    user: { ...updatedUser._doc, password: undefined },
   });
 });
 

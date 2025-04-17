@@ -20,7 +20,7 @@ router.post("/signup", validateRequestBody, validateSignupBody, signup);
 router.post("/login", validateRequestBody, validateLoginBody, login);
 router.post("/logout", logout);
 
-router.post(
+router.put(
   "/update-profile",
   protectRoute,
   validateRequestBody,
@@ -28,6 +28,6 @@ router.post(
   updateProfile
 );
 
-router.post("/check", protectRoute, checkAuth);
+router.get("/check", protectRoute, checkAuth);
 
 module.exports = router;

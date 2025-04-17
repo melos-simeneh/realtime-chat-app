@@ -1,5 +1,6 @@
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
+const morgan = require("morgan");
 
 const requiredEnvVars = ["PORT", "MONGO_URL", "NODE_ENV", "JWT_SECRET"];
 exports.checkEnv = () => {
@@ -30,4 +31,18 @@ exports.generateTokenAndSetCookie = (userId, res) => {
     secure: process.env.NODE_ENV === "production",
   });
   return token;
+};
+
+exports.morganConfig = function (tokens, req, res) {
+  return [
+    `[${exports.timestamp()}]`,
+    tokens["remote-addr"](req, res),
+    `"${tokens.method(req, res)} ${tokens.url(req, res)} HTTP/${
+      req.httpVersion
+    }"`,
+    tokens.status(req, res),
+    `${tokens["response-time"](req, res)} ms`,
+    `"Referrer: ${tokens.referrer(req, res) || "-"}` + `"`,
+    `"User-Agent: ${tokens["user-agent"](req, res)}"`,
+  ].join(" | ");
 };
