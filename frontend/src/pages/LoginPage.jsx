@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +15,23 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login(formData);
+
+    const { email, password } = formData;
+
+    if (!email.trim()) {
+      return toast.error("Email is required");
+    }
+
+    if (!password.trim()) {
+      return toast.error("Password is required");
+    }
+
+    try {
+      await login({ email, password });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to sign in. Please try again.");
+    }
   };
 
   return (
