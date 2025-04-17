@@ -30,7 +30,7 @@ exports.getMessages = catchAsync(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Messages fetched successfully",
-    messages,
+    userMessages: messages,
   });
 });
 
@@ -51,5 +51,6 @@ exports.sendMessage = catchAsync(async (req, res) => {
   res.status(201).json({
     success: true,
     message: "Message sent successfully",
+    sentMessage: newMessage,
   });
 });

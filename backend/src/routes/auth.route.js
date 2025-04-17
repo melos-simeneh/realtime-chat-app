@@ -4,6 +4,7 @@ const {
   login,
   logout,
   updateProfile,
+  checkAuth,
 } = require("../controllers/auth.controller");
 const {
   validateRequestBody,
@@ -26,5 +27,7 @@ router.post(
   validateUpdateProfileBody,
   updateProfile
 );
+
+router.post("/check", protectRoute, checkAuth);
 
 module.exports = router;

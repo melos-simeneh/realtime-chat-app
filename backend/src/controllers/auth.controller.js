@@ -6,7 +6,6 @@ const { catchAsync, AppError } = require("../lib/errorHandler");
 exports.signup = catchAsync(async (req, res) => {
   const { fullName, email, password } = req.body;
   const user = await User.findOne({ email });
-
   if (user) {
     throw new AppError("Email already exists", 400);
   }
@@ -19,7 +18,7 @@ exports.signup = catchAsync(async (req, res) => {
   });
   await newUser.save();
 
-  const token = generateToken(newUser._id, res);
+  const token = generateTokenAndSetCookie(newUser._id, res);
 
   res.status(201).json({
     success: true,
@@ -75,4 +74,9 @@ exports.updateProfile = catchAsync(async (req, res) => {
       profilePic: updatedUser.profilePic,
     },
   });
+});
+
+exports.checkAuth = catchAsync(async (req, res) => {
+  const user = await User.findById(req.userId).select("-password");
+  res.status(200).json({ success: true, message: "Check success", user });
 });
