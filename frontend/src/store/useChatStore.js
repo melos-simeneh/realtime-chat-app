@@ -58,7 +58,7 @@ export const useChatStore = create((set, get) => ({
       if (!isMessageSentFromSelectedUser) return;
 
       set({
-        messages: [...get().messages, newMessage],
+        messages: [...get().userMessages, newMessage],
       });
     });
   },
