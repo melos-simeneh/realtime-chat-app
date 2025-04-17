@@ -5,6 +5,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const routes = require("./routes/index.route");
 const mongoDBConnection = require("./lib/db");
+const path = require("path");
 
 const { globalErrorHandler } = require("./lib/errorHandler");
 const { timestamp, checkEnv, morganConfig } = require("./lib/utils");
@@ -19,6 +20,14 @@ app.use(morgan(morganConfig));
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use("/api", routes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
+}
 
 // Global Error Handler (MUST be last middleware)
 app.use(globalErrorHandler);
