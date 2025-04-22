@@ -3,6 +3,21 @@
 
 A full-stack real-time chat application built using **React**, **Node.js**, **Express**, **Socket.io**, and **MongoDB**. Users can register, log in, and chat in real-time.
 
+## 🚀 Live Demo
+
+Check out the deployed app here: [https://realtime-chat-app-df1a.onrender.com/](https://realtime-chat-app-df1a.onrender.com/)
+
+## 📸 Screenshots
+
+**🖥️ Chat Interface**  
+![Chat Interface](chat_ui.png)
+
+**🔐 Login Page**  
+![Login Interface](login_ui.png)
+
+**📝 Register**  
+![Register Interface](signup_ui.png)
+
 ## 🚀 Features
 
 - 🔒 User Authentication (Register & Login)
