@@ -6,7 +6,11 @@ const { hashPasswordSync } = require("../lib/jwt.js");
 const password = hashPasswordSync("123456");
 
 const seedUsers = [
-  // Female Users
+  {
+    email: "melos@gmail.com",
+    fullName: "Melos Simeneh",
+    password,
+  },
   {
     email: "emma.thompson@example.com",
     fullName: "Emma Thompson",
@@ -57,6 +61,7 @@ const seedUsers = [
   },
 
   // Male Users
+
   {
     email: "james.anderson@example.com",
     fullName: "James Anderson",
