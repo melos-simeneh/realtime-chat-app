@@ -5,15 +5,15 @@ A full-stack real-time chat application built using **React**, **Node.js**, **Ex
 
 ## 🚀 Features
 
-- User Authentication (Register & Login)
+- 🔒 User Authentication (Register & Login)
 
-- Real-time messaging using Socket.IO
+- 💬 Real-time messaging using Socket.IO
 
-- Persistent chat history stored in MongoDB
+- 📦 Persistent chat history stored in MongoDB
 
-- Online/offline user status
+- 🟢 Online/offline user status
 
-- Responsive UI with React
+- 🌐 Responsive UI with React
 
 ## 🛠️ Tech Stack
 
@@ -28,8 +28,10 @@ A full-stack real-time chat application built using **React**, **Node.js**, **Ex
 ## 📁 Project Structure
 
 ```bash
-/frontend        # React client
-/backend        # Node.js server
+realtime-chat-app/
+├── backend/       # Express + Socket.IO + MongoDB
+├── frontend/      # React app
+├── package.json   # Root scripts for build/start
 ```
 
 ## ⚙️ Installation
@@ -79,3 +81,32 @@ npm run dev
 ```
 
 The app will be available at [http://localhost:5173](http://localhost:5173)
+
+**⚙️ Other way to run the app**
+Local Development
+
+```bash
+# Install dependencies and start both frontend and backend
+npm install
+npm run start
+```
+
+This will start the backend server using the backend/start script.
+
+Build for Production
+
+```bash
+npm run build
+```
+
+This installs all dependencies in both frontend and backend and builds the React app.
+
+## 🔌 How it Works
+
+- When a user logs in, a Socket.IO connection is established.
+
+- Messages are sent and received in real-time using WebSockets.
+
+- Chat history is saved in MongoDB and fetched on load.
+
+- User sessions are managed with JWT tokens.
